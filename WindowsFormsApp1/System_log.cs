@@ -43,9 +43,16 @@ namespace WindowsFormsApp1
         //overloaded ToString function
         public new string ToString()
         {
-            return m_TimeStamp.ToString() + ", " + m_Severity.ToString() + ", " + m_LogText.ToString() + "\n"; 
+            return m_TimeStamp.ToString() + ", " + Enum.GetName(typeof(infoType),m_Severity)+ ", " + m_LogText.ToString() + "\r\n"; 
         }
-       
+        enum infoType
+        {
+            Info,
+            warning,
+            error,
+            fatalerror,
+            reatorMeltDown
+        }
     }
 
 

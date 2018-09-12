@@ -19,7 +19,7 @@ namespace WindowsFormsApp1
         public FIle_path()
         {
             InitializeComponent();
-            _log.AddEntry(0, "File shredder initialized\n");
+            _log.AddEntry(0, "File shredder initialized");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,7 +32,7 @@ namespace WindowsFormsApp1
         //click this buttom to active file shredder
         private void Runbottom_Click(object sender, EventArgs e)
         {
-            _log.AddEntry(0, "Initializing shredding operation\n");
+            _log.AddEntry(0, "Initializing shredding operation");
             try
             {
                 /////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ namespace WindowsFormsApp1
 
                 //open the file
                 FileStream fileObject = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite);
-                _log.AddEntry(0, "File reads succesfully\n");
+                _log.AddEntry(0, "File reads succesfully");
                 //get the file length
                 long fileLength = fileObject.Length;
 
@@ -79,7 +79,7 @@ namespace WindowsFormsApp1
             }
             catch
             {
-                _log.AddEntry(1, "failed to shred\n");
+                _log.AddEntry(1, "failed to shred");
                 MessageBox.Show("The path is invalid or the file does not exist");
                 FileNameBox.Text = "";
             }

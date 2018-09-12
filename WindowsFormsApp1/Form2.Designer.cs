@@ -58,6 +58,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.log_label);
             this.Controls.Add(this.textBox1);
+            this.MaximizeBox = false;
             this.Name = "Log_window";
             this.Text = "Log Info";
             this.ResumeLayout(false);

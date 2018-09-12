@@ -96,8 +96,7 @@
             // 
             // FIle_path
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(646, 146);
             this.Controls.Add(this.System_Log);
             this.Controls.Add(this.Dialog);
@@ -105,6 +104,7 @@
             this.Controls.Add(this.Runbottom);
             this.Controls.Add(this.Browse);
             this.Controls.Add(this.FileNameBox);
+            this.MaximizeBox = false;
             this.Name = "FIle_path";
             this.Text = "File Shredder";
             this.Load += new System.EventHandler(this.Form1_Load);
