@@ -14,12 +14,12 @@ namespace WindowsFormsApp1
     public partial class FIle_path : Form
     {
         Log _log = new Log();
-        string filename = ""; //chang the filename path here
+        string filename = "C:\\Testing\\text.csv"; //chang the filename path here
  
         public FIle_path()
         {
             InitializeComponent();
-            _log.AddEntry(0, "File shredder initialized");
+            _log.AddEntry(0, "File shredder initialized\n");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,7 +32,7 @@ namespace WindowsFormsApp1
         //click this buttom to active file shredder
         private void Runbottom_Click(object sender, EventArgs e)
         {
-
+            _log.AddEntry(0, "Initializing shredding operation\n");
             try
             {
                 /////////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +43,7 @@ namespace WindowsFormsApp1
 
                 //open the file
                 FileStream fileObject = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite);
+                _log.AddEntry(0, "File reads succesfully\n");
                 //get the file length
                 long fileLength = fileObject.Length;
 
@@ -52,8 +53,8 @@ namespace WindowsFormsApp1
 
                 //the buffer can be increased or decreaed by bitSize
                 byte[] buffer = new byte[buffer_Length];
-            
 
+                
                 //enter a loop to overwrite the each bits in the file
                 for (long fileIndex = 0; fileIndex < fileLength;)
                 {
@@ -69,7 +70,7 @@ namespace WindowsFormsApp1
                     fileIndex += chunkSize;
 
                 }
-
+                _log.AddEntry(0, "Shredding complete\n");
                 MessageBox.Show("The Shredding operation successed");
                 fileObject.Dispose();
                 /////////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +79,7 @@ namespace WindowsFormsApp1
             }
             catch
             {
+                _log.AddEntry(1, "failed to shred\n");
                 MessageBox.Show("The path is invalid or the file does not exist");
                 FileNameBox.Text = "";
             }
@@ -106,10 +108,23 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _log.SaveFile(filename);
-            Log_window log_Window = new Log_window();
-            log_Window.ShowDialog();
+            try
+            {
+                
+                if (_log.SaveFile(filename))
+                {
+                    Log_window log_Window = new Log_window(filename);
+                    log_Window.ShowDialog();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch
+            {
 
+            }
         }      
     }
 

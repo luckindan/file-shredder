@@ -39,6 +39,12 @@ namespace WindowsFormsApp1
             m_Severity = new_logEntry.m_Severity;
             m_LogText = new_logEntry.m_LogText;
         }
+
+        //overloaded ToString function
+        public new string ToString()
+        {
+            return m_TimeStamp.ToString() + ", " + m_Severity.ToString() + ", " + m_LogText.ToString() + "\n"; 
+        }
        
     }
 
@@ -54,7 +60,7 @@ namespace WindowsFormsApp1
 
         }
        
-        //this iwll add Log entry to the linked list
+        //this will add Log entry to the linked list
         public void AddEntry(LogEntry entry) {
             try
             {
@@ -69,11 +75,11 @@ namespace WindowsFormsApp1
 
         //
         //Severity's number represents info/warning/error/fatal error/reactor meltdown
-        //1  = info
-        // 2 =  warning
-        // 3 = error
-        // 4 = fatal error
-        // 5 reactor meltdown
+        //0 = info
+        //1 =  warning
+        //2 = error
+        //3 = fatal error
+        //4 reactor meltdown
         //error description
         public void AddEntry(int severity, string logText) {
             try
@@ -89,37 +95,59 @@ namespace WindowsFormsApp1
         }
 
         //writes the file and save it
-        public void SaveFile(string fileName) {
+        public bool SaveFile(string fileName) {
             //FileStream logFile = new FileStream.Create();
             try
             {
                 //check if the file already exists
+                //if it exists, append to the existed file
                 if (System.IO.File.Exists(fileName))
                 {
-                    throw new Exception();
-                }
-
-
-                //create the log file
-                using (FileStream LogFile = new FileStream(fileName, FileMode.CreateNew)) {
-
-                   //iterate through the created linked list
-                    foreach (LogEntry logline in m_log)
+                    using (FileStream LogFile = new FileStream(fileName, FileMode.Append))
                     {
-                        //write the text into UTF8 format
-                        byte[] buffer = System.Text.UnicodeEncoding.UTF8.GetBytes(logline.ToString());
-                        LogFile.Write(buffer, 0, buffer.Length);
-                            
-                   }
 
-                    //dispose to avoid memory leak
-                    LogFile.Dispose();
-                } 
+                        //iterate through the created linked list
+                        foreach (LogEntry logline in m_log)
+                        {
+                            //write the text into UTF8 format
+                            byte[] buffer = System.Text.UnicodeEncoding.UTF8.GetBytes(logline.ToString());
+                            LogFile.Write(buffer, 0, buffer.Length);
 
+                        }
+
+                        //dispose to avoid memory leak
+                        LogFile.Dispose();
+                        return true;
+                    }
+                   
+                }
+                //if it does not exist, write a new file
+                else
+                {
+                    //create the log file
+                    using (FileStream LogFile = new FileStream(fileName, FileMode.CreateNew))
+                    {
+
+                        //iterate through the created linked list
+                        foreach (LogEntry logline in m_log)
+                        {
+                            //write the text into UTF8 format
+                            byte[] buffer = System.Text.UnicodeEncoding.UTF8.GetBytes(logline.ToString());
+                            LogFile.Write(buffer, 0, buffer.Length);
+
+                        }
+
+                        //dispose to avoid memory leak
+                        LogFile.Dispose();
+                        return true;
+                    }
+                    
+                }
             }
             catch(Exception error)
             {
                 System.Windows.Forms.MessageBox.Show(error.Message);
+                return false;
             }
         }
     }

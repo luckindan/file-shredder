@@ -21,20 +21,23 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             readLog(fileName);
+          
         }
         
         void readLog(string fileName)
         {
             try
             {
-                using (FileStream file = new FileStream(fileName, FileMode.Open))
+                using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
                     byte[] buffer = new byte[file.Length];
 
                     int byteread = file.Read(buffer, 0, buffer.Length);
                     string textReadIn = System.Text.UnicodeEncoding.UTF8.GetString(buffer);
+                    
 
                     textBox1.Text = textReadIn;
+                    file.Dispose();
                 }
             }
             catch(Exception error)
