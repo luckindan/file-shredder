@@ -80,7 +80,6 @@ namespace WindowsFormsApp1
             }
         }
 
-        //
         //Severity's number represents info/warning/error/fatal error/reactor meltdown
         //0 = info
         //1 =  warning
@@ -155,6 +154,27 @@ namespace WindowsFormsApp1
             {
                 System.Windows.Forms.MessageBox.Show(error.Message);
                 return false;
+            }
+        }
+
+        //reads the file and return a string
+        public string ReadFile(string fileName)
+        {
+            try
+            {
+                using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] buffer = new byte[file.Length]; //create the buffer
+                    int byteread = file.Read(buffer, 0, buffer.Length); //loads the data into byteRead
+                    string textReadIn = System.Text.UnicodeEncoding.UTF8.GetString(buffer); //send the info from byteread to textReadIn
+                    file.Dispose();
+                    return textReadIn; //return the read text string
+                }
+            }
+            catch (Exception error)
+            {
+                System.Windows.Forms.MessageBox.Show(error.Message); //show the error message if read failed
+                return ""; //return nothing
             }
         }
     }

@@ -14,29 +14,20 @@ namespace WindowsFormsApp1
     public partial class FIle_path : Form
     {
         Log _log = new Log();
-        string filename = "C:\\Testing\\text.csv"; //chang the filename path here
+        string filename = "C:\\Testing\\text.csv"; //change the filename path here
  
         public FIle_path()
         {
             InitializeComponent();
             _log.AddEntry(0, "File shredder initialized");
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-        //this function doesnt do anythin
-       // private void Destination_Click(object sender, EventArgs e) { }
-      
+     
         //click this buttom to active file shredder
         private void Runbottom_Click(object sender, EventArgs e)
         {
             _log.AddEntry(0, "Initializing shredding operation");
             try
             {
-                /////////////////////////////////////////////////////////////////////////////////////
-                /////////////////////////////////////////////////////////////////////////////////////
                 long buffer_Length = 2048;
                 //getting the filename from the textBox
                 string fileName = FileNameBox.Text.Trim();
@@ -73,8 +64,6 @@ namespace WindowsFormsApp1
                 _log.AddEntry(0, "Shredding complete\n");
                 MessageBox.Show("The Shredding operation successed");
                 fileObject.Dispose();
-                /////////////////////////////////////////////////////////////////////////////////////////
-                /////////////////////////////////////////////////////////////////////////////////////////
 
             }
             catch
@@ -84,12 +73,7 @@ namespace WindowsFormsApp1
                 FileNameBox.Text = "";
             }
         }
-        //this shows the text
-        //work as an input
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
         //Here browse click returns the file address
         private void Browse_Click(object sender, EventArgs e)
         {
@@ -101,16 +85,11 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
-        {
-
-        }
-
+        //opens the form2 the log window
         private void button1_Click(object sender, EventArgs e)
         {
             try
-            {
-                
+            {  
                 if (_log.SaveFile(filename))
                 {
                     Log_window log_Window = new Log_window(filename);
@@ -121,9 +100,9 @@ namespace WindowsFormsApp1
                     throw new Exception();
                 }
             }
-            catch
+            catch(Exception error)
             {
-
+                MessageBox.Show(error.Message);
             }
         }      
     }

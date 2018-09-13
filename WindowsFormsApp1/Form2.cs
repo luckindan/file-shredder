@@ -16,6 +16,7 @@ namespace WindowsFormsApp1
         public Log_window()
         {
             InitializeComponent();
+            textBox1.Text = "No log files here";
         }
         public Log_window(string fileName)
         {
@@ -23,28 +24,11 @@ namespace WindowsFormsApp1
             readLog(fileName);
           
         }
-        
+
         void readLog(string fileName)
         {
-            try
-            {
-                using (FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-                {
-                    byte[] buffer = new byte[file.Length];
-
-                    int byteread = file.Read(buffer, 0, buffer.Length);
-                    string textReadIn = System.Text.UnicodeEncoding.UTF8.GetString(buffer);
-                    
-
-                    textBox1.Text = textReadIn;
-                    file.Dispose();
-                }
-            }
-            catch(Exception error)
-            {
-                MessageBox.Show(error.Message);
-            }
-
+            Log m_log = new Log();
+            textBox1.Text = m_log.ReadFile(fileName); //reads the text from the log file
         }
     }
 }

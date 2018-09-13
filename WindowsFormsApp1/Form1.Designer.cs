@@ -42,7 +42,7 @@
             this.FileNameBox.Name = "FileNameBox";
             this.FileNameBox.Size = new System.Drawing.Size(366, 20);
             this.FileNameBox.TabIndex = 0;
-            this.FileNameBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            
             // 
             // Browse
             // 
@@ -107,7 +107,7 @@
             this.MaximizeBox = false;
             this.Name = "FIle_path";
             this.Text = "File Shredder";
-            this.Load += new System.EventHandler(this.Form1_Load);
+          
             this.ResumeLayout(false);
             this.PerformLayout();
 
