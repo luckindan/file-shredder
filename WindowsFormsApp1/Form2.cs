@@ -21,11 +21,11 @@ namespace WindowsFormsApp1
         public Log_window(string fileName)
         {
             InitializeComponent();
-            readLog(fileName);
+            ReadLog(fileName);
           
         }
 
-        void readLog(string fileName)
+        void ReadLog(string fileName)
         {
             Log m_log = new Log();
             textBox1.Text = m_log.ReadFile(fileName); //reads the text from the log file

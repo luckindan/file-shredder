@@ -5,10 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-//using System.Generics.Collections;
-//at the top and use the template class LinkedList<LogEntry>'
-
-
 namespace WindowsFormsApp1
 {
     public class LogEntry
@@ -43,15 +39,15 @@ namespace WindowsFormsApp1
         //overloaded ToString function
         public new string ToString()
         {
-            return m_TimeStamp.ToString() + ", " + Enum.GetName(typeof(infoType),m_Severity)+ ", " + m_LogText.ToString() + "\r\n"; 
+            return m_TimeStamp.ToString() + ", " + Enum.GetName(typeof(InfotypeEnum),m_Severity)+ ", " + m_LogText.ToString() + "\r\n"; 
         }
-        enum infoType
+        enum InfotypeEnum
         {
-            Info,
-            warning,
-            error,
-            fatalerror,
-            reatorMeltDown
+            Info = 0,
+            Warning = 1,
+            Error = 2,
+            Fatal_Error = 3,
+            reator_Melt_Down = 4
         }
     }
 
@@ -63,23 +59,25 @@ namespace WindowsFormsApp1
 
         //default contructor
         public Log(){
-            m_log = new LinkedList<LogEntry>();
-
+            m_log = new LinkedList<LogEntry>(); //craete the new linked list
         }
        
         //this will add Log entry to the linked list
-        public void AddEntry(LogEntry entry) {
+        public bool AddEntry(LogEntry entry) {
+            bool m_operation = false;
             try
             {
                 LogEntry newNode = new LogEntry(entry);
                 m_log.AddLast(entry);
+                m_operation = true; //add entry successed
             }
             catch(Exception error)
             {
                 System.Windows.Forms.MessageBox.Show(error.Message);
             }
+            return m_operation;
         }
-
+  
         //Severity's number represents info/warning/error/fatal error/reactor meltdown
         //0 = info
         //1 =  warning
@@ -87,22 +85,23 @@ namespace WindowsFormsApp1
         //3 = fatal error
         //4 reactor meltdown
         //error description
-        public void AddEntry(int severity, string logText) {
+        public bool AddEntry(int severity, string logText) {
+            bool m_operation = false;
             try
             {
                 LogEntry newNode = new LogEntry(severity, logText);
                 m_log.AddLast(newNode);
+                m_operation = true; //operation successed
             }
             catch (Exception error)
             {
                 System.Windows.Forms.MessageBox.Show(error.Message);
             }
-
+            return m_operation; //return the operation status
         }
-
         //writes the file and save it
         public bool SaveFile(string fileName) {
-            //FileStream logFile = new FileStream.Create();
+            bool m_operation = false;
             try
             {
                 //check if the file already exists
@@ -111,7 +110,6 @@ namespace WindowsFormsApp1
                 {
                     using (FileStream LogFile = new FileStream(fileName, FileMode.Append))
                     {
-
                         //iterate through the created linked list
                         foreach (LogEntry logline in m_log)
                         {
@@ -120,12 +118,10 @@ namespace WindowsFormsApp1
                             LogFile.Write(buffer, 0, buffer.Length);
 
                         }
-
                         //dispose to avoid memory leak
                         LogFile.Dispose();
-                        return true;
-                    }
-                   
+                        m_operation = true; //operation successed
+                    }                
                 }
                 //if it does not exist, write a new file
                 else
@@ -133,28 +129,24 @@ namespace WindowsFormsApp1
                     //create the log file
                     using (FileStream LogFile = new FileStream(fileName, FileMode.CreateNew))
                     {
-
                         //iterate through the created linked list
                         foreach (LogEntry logline in m_log)
                         {
                             //write the text into UTF8 format
                             byte[] buffer = System.Text.UnicodeEncoding.UTF8.GetBytes(logline.ToString());
                             LogFile.Write(buffer, 0, buffer.Length);
-
                         }
-
                         //dispose to avoid memory leak
                         LogFile.Dispose();
-                        return true;
-                    }
-                    
+                        m_operation = true; //operation successed
+                    }                    
                 }
             }
             catch(Exception error)
             {
                 System.Windows.Forms.MessageBox.Show(error.Message);
-                return false;
             }
+            return m_operation; //return the operation statues
         }
 
         //reads the file and return a string
